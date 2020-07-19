@@ -1,0 +1,33 @@
+作业1. 请学会读取一张图像，然后请将图像进行缩小（2倍，4倍，8倍等），或者进行放大（只要求2倍），改变后的图像请保存为JPEG文件。
+作业2： 请尝试实现天文CCD观测中的BINNING功能，即原始图像,BINNING=2时，表示2x2个点计算得到一个点。
+
+import numpy as np
+import matplotlib.pylab as plt
+
+def plti(im, **kwargs):
+    plt.imshow(im, interpolation="none", **kwargs)
+    plt.axis('off') # 去掉坐标轴
+    plt.show() # 弹窗显示图像
+
+# 加载图像
+im = plt.imread("/users/wangfeng/downloads/lena512color.tiff") # 加载当前文件夹中名为BTD.jpg的图片
+# im = im[::8,::8,:]
+# print(im.shape) # 输出图像尺寸
+# plti(im)
+
+# # im = im[400:3800,:2000,:]  # 直接切片对图像进行裁剪
+# # plti(im)
+#
+fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(15,5))
+# # 将一张图分为1x3个子图，axs为各子图对象构成的列表。figsize为显示窗口的横纵比。
+#
+for c, ax in zip(range(3), axs): # 使用zip来同时循环3通道和3个子图对象
+    tmp_im = np.zeros(im.shape) # 初始化一个和原图像大小相同的三维数组
+    # 注意 tmp_im 仍然是三通道
+    tmp_im[:,:,c] = im[:,:,c] # 只复制某一通道
+    one_channel = im[:,:,c].flatten() # 索引该通道并展平至一维
+    print("channel", c, " max = ", max(one_channel), "min = ", min(one_channel)) # 输出该通道最大最小的像素值
+    ax.imshow(tmp_im) # 在子图上绘制
+    ax.set_axis_off() # 去掉子图坐标轴
+# 注意以上 tmp_im 采用的是切片复制
+plt.show()

@@ -1,0 +1,14 @@
+room = {"abc":12,"de":13,"dj":14,"pp":15,"hui":17}
+
+
+
+while(1):
+    name = input('Please input the name:')
+
+    if name == "exit":
+            exit()
+    if name in room:
+        print(room[name])
+    else:
+        print("None")
+        continue
